@@ -19,7 +19,7 @@ function Categories() {
         <div className="row g-4 text-center">
           {categories.filter((c) => c.id !== 'all').map((cat) => (
             <div key={cat.id} className="col-4 col-lg-2">
-              <Link to="/shop" className="text-decoration-none category-item d-block">
+              <Link to={`/shop?category=${encodeURIComponent(cat.id)}`} className="text-decoration-none category-item d-block">
                 <div className="category-icon">
                   <i className={`bi ${cat.icon}`}></i>
                 </div>

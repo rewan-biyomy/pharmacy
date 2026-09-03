@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { removeFromCart, clearCart } from '../store/slices/cartSlice'
+import { removeFromCart, updateQuantity, clearCart } from '../store/slices/cartSlice'
 import StarRating from '../components/Common/StarRating'
 
 function CartPage() {
@@ -91,9 +91,15 @@ function CartPage() {
                             )}
                           </div>
                           <div className="d-flex align-items-center gap-2">
-                            <span className="badge bg-pharma-light text-pharma-primary">
-                              الكمية: {item.quantity}
-                            </span>
+                            <div className="d-flex align-items-center border rounded-pill overflow-hidden">
+                              <button type="button" className="btn btn-sm px-2" aria-label={`تقليل كمية ${item.name}`} onClick={() => dispatch(updateQuantity({ id: item.id, quantity: item.quantity - 1 }))}>
+                                <i className="bi bi-dash"></i>
+                              </button>
+                              <span className="px-2 small fw-bold">{item.quantity}</span>
+                              <button type="button" className="btn btn-sm px-2" aria-label={`زيادة كمية ${item.name}`} onClick={() => dispatch(updateQuantity({ id: item.id, quantity: item.quantity + 1 }))}>
+                                <i className="bi bi-plus"></i>
+                              </button>
+                            </div>
                             <span className="fw-bold text-pharma-primary">
                               {(item.price * item.quantity).toFixed(2)} ج.م
                             </span>

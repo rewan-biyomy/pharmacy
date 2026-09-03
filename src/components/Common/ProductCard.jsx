@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import StarRating from './StarRating'
 import { addToCart } from '../../store/slices/cartSlice'
@@ -6,6 +6,7 @@ import { toggleWishlist } from '../../store/slices/wishlistSlice'
 
 function ProductCard({ product }) {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const wishlistItems = useSelector(state => state.wishlist.items)
   const isWished = wishlistItems.some(item => item.id === product.id)
 
@@ -25,8 +26,7 @@ function ProductCard({ product }) {
     : 0
 
   return (
-    <div className="product-card-wrapper">
-      <Link to={`/product/${product.id}`} className="product-card-link text-decoration-none">
+    <div className="product-card-wrapper" onClick={() => navigate(`/product/${product.id}`)} role="link" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && navigate(`/product/${product.id}`)}>
         <div className="product-card-v2">
           {/* صورة المنتج */}
           <div className="product-card-image">
@@ -50,11 +50,9 @@ function ProductCard({ product }) {
 
             {/* طبقة Hover مع زر العين */}
             <div className="product-card-overlay">
-              <button className="eye-btn" onClick={(e) => e.stopPropagation()}>
-                <Link to={`/product/${product.id}`} className="text-decoration-none text-white">
-                  <i className="bi bi-eye-fill"></i>
-                </Link>
-              </button>
+              <Link to={`/product/${product.id}`} className="eye-btn text-decoration-none text-white" onClick={(e) => e.stopPropagation()} aria-label={`عرض ${product.name}`}>
+                <i className="bi bi-eye-fill"></i>
+              </Link>
             </div>
           </div>
 
@@ -80,13 +78,12 @@ function ProductCard({ product }) {
                 <i className="bi bi-cart-plus"></i>
                 <span>أضف للسلة</span>
               </button>
-              <Link to={`/product/${product.id}`} className="btn-view">
+              <Link to={`/product/${product.id}`} className="btn-view" onClick={(e) => e.stopPropagation()}>
                 <i className="bi bi-eye"></i>
               </Link>
             </div>
           </div>
         </div>
-      </Link>
     </div>
   )
 }

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import ShopHeader from '../components/Shop/ShopHeader'
 import CategoryFilter from '../components/Shop/CategoryFilter'
 import ProductGrid from '../components/Shop/ProductGrid'
@@ -7,7 +8,8 @@ import { readProducts, readCategories } from '../data/catalog'
 
 function ShopPage() {
   const [products, setProducts] = useState(() => readProducts())
-  const [activeCategory, setActiveCategory] = useState('all')
+  const [searchParams, setSearchParams] = useSearchParams()
+  const [activeCategory, setActiveCategory] = useState(() => searchParams.get('category') || 'all')
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 6
 
@@ -16,6 +18,11 @@ function ShopPage() {
     window.addEventListener('pharmacy-products-changed', sync)
     return () => window.removeEventListener('pharmacy-products-changed', sync)
   }, [])
+
+  useEffect(() => {
+    setActiveCategory(searchParams.get('category') || 'all')
+    setCurrentPage(1)
+  }, [searchParams])
 
   const filtered = activeCategory === 'all' 
     ? products 
@@ -28,6 +35,7 @@ function ShopPage() {
   const handleCategoryChange = (catId) => {
     setActiveCategory(catId)
     setCurrentPage(1)
+    setSearchParams(catId === 'all' ? {} : { category: catId })
   }
 
   const handlePageChange = (page) => {
