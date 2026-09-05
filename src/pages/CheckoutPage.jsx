@@ -81,6 +81,7 @@ function CheckoutPage() {
 
     const orderData = {
       customer: formData,
+      notes: formData.notes.trim().slice(0, 500),
       items: items,
       total: totalPrice,
       deliveryFee,

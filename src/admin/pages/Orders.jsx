@@ -58,6 +58,12 @@ function Orders() {
                   <td className="fw-bold text-pharma-primary\">{order.grandTotal?.toFixed(2)} ج.م</td>
                   <td>
                     <small>{order.customer?.city} - {order.customer?.address}</small>
+                    {(order.notes || order.customer?.notes) && (
+                      <small className="d-block text-muted mt-1 text-break">
+                        <i className="bi bi-chat-left-text me-1"></i>
+                        {order.notes || order.customer.notes}
+                      </small>
+                    )}
                   </td>
                   <td>
                     <select 

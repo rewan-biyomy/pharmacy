@@ -68,6 +68,7 @@ const orderSlice = createSlice({
       const newOrder = {
         id: Date.now().toString(),
         ...action.payload,
+        notes: String(action.payload.notes || '').trim().slice(0, 500),
         status: 'pending',
         createdAt: new Date().toISOString(),
       }

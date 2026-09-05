@@ -69,6 +69,12 @@ function OrderSuccessPage() {
                       <span className="text-muted d-block">العنوان</span>
                       <span className="fw-bold">{currentOrder.customer.city} - {currentOrder.customer.address}</span>
                     </div>
+                    {(currentOrder.notes || currentOrder.customer?.notes) && (
+                      <div className="col-12">
+                        <span className="text-muted d-block">ملاحظات التوصيل</span>
+                        <span className="fw-bold text-break">{currentOrder.notes || currentOrder.customer.notes}</span>
+                      </div>
+                    )}
                   </div>
 
                   <hr className="my-3" />
